@@ -555,41 +555,14 @@ namespace App_Code.Controls
         protected override void RenderContents(HtmlTextWriter output)
         {
             output.AddAttribute("type", "text/javascript");
-            output.AddAttribute("src", "http://www.google.com/recaptcha/api/js/recaptcha_ajax.js");
+            output.AddAttribute("src", "https://www.google.com/recaptcha/api.js");
             output.RenderBeginTag("script");
             output.RenderEndTag();
 
-            output.AddAttribute(HtmlTextWriterAttribute.Id, "spnCaptchaIncorrect");
-            output.AddAttribute(HtmlTextWriterAttribute.Style, "color:Red;display:none;");
-            output.RenderBeginTag("span");
-            output.WriteLine("The captcha text was not valid. Please try again.");
-            output.RenderEndTag();
 
             output.AddAttribute(HtmlTextWriterAttribute.Id, "recaptcha_placeholder");
+            output.AddAttribute("data-sitekey", this.publicKey);
             output.RenderBeginTag(HtmlTextWriterTag.Div);
-            output.RenderEndTag();
-
-            output.AddAttribute(HtmlTextWriterAttribute.Type, "text/javascript");
-            output.RenderBeginTag(HtmlTextWriterTag.Script);
-            output.WriteLine("function showRecaptcha() {");
-            output.WriteLine("Recaptcha.create('{0}', 'recaptcha_placeholder', {{", this.publicKey);
-            output.WriteLine("theme: '{0}',", this.Theme);
-            output.WriteLine("lang: '{0}',", this.Language);
-            output.WriteLine("tabindex: {0}", this.TabIndex);
-            output.WriteLine("})");
-            output.WriteLine("}");
-
-            output.WriteLine("var rc_oldonload = window.onload;");
-            output.WriteLine("if (typeof window.onload != 'function') {");
-            output.WriteLine("window.onload = showRecaptcha;");
-            output.WriteLine("}");
-            output.WriteLine("else {");
-            output.WriteLine("window.onload = function() {");
-            output.WriteLine("rc_oldonload();");
-            output.WriteLine("showRecaptcha();");
-            output.WriteLine("}");
-            output.WriteLine("}");
-
             output.RenderEndTag();
         }
 
